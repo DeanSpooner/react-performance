@@ -1,34 +1,34 @@
-import * as React from 'react'
-import chalk from 'chalk'
-import '../final/03'
+import * as React from 'react';
+import chalk from 'chalk';
+import '../final/03';
 // import '../final/03-extra.1'
-// import '../exercise/03'
+import '../exercise/03';
 
 // this gets set as soon as we import the file
 // storing it here so it persists between tests
-const memoCalls = [...React.memo.mock.calls]
+const memoCalls = [...React.memo.mock.calls];
 
 jest.mock('../workerized-filter-cities', () => ({
   getItems: jest.fn(() => {
-    throw new Error('getItems must be mocked')
+    throw new Error('getItems must be mocked');
   }),
-}))
+}));
 
 jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
+  const actualReact = jest.requireActual('react');
   return {
     ...actualReact,
     memo: jest.fn((...args) => actualReact.memo(...args)),
-  }
-})
+  };
+});
 
 test('Components are memoized', () => {
-  const memoizedFunctions = memoCalls.map(call => call[0].name)
+  const memoizedFunctions = memoCalls.map(call => call[0].name);
   try {
-    expect(memoizedFunctions).toContain('Menu')
-    expect(memoizedFunctions).toContain('ListItem')
+    expect(memoizedFunctions).toContain('Menu');
+    expect(memoizedFunctions).toContain('ListItem');
     if (memoCalls.length > 2) {
-      expect(memoizedFunctions).toContain('Downshift')
+      expect(memoizedFunctions).toContain('Downshift');
     }
   } catch (error) {
     //
@@ -39,12 +39,12 @@ test('Components are memoized', () => {
     if (memoizedFunctions.length < 2) {
       console.warn(
         `You may be seeing this error because the name of the function was removed (like this: const Menu = React.memo(() => {})). It's avised to keep the function name to improve the devtools experience (like this: const Menu = React.memo(function Menu() {}))`,
-      )
+      );
     }
     error.message = `🚨  ${chalk.red(
       `The Menu and ListItem components need to both be wrapped in React.memo. You do not need to have any other components memoized.`,
-    )}\n\n${error.message}`
+    )}\n\n${error.message}`;
 
-    throw error
+    throw error;
   }
-})
+});

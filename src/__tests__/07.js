@@ -1,24 +1,24 @@
-import * as React from 'react'
-import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils'
-import {render} from '@testing-library/react'
-import reportProfile from '../report-profile'
-import App from '../final/07'
-// import App from '../exercise/07'
+import * as React from 'react';
+import {alfredTip} from '@kentcdodds/react-workshop-app/test-utils';
+import {render} from '@testing-library/react';
+import reportProfile from '../report-profile';
+// import App from '../final/07'
+import App from '../exercise/07';
 
 jest.mock('react', () => {
-  const actualReact = jest.requireActual('react')
+  const actualReact = jest.requireActual('react');
   return {
     ...actualReact,
     Profiler: jest.fn(),
-  }
-})
+  };
+});
 
 beforeEach(() => {
-  React.Profiler.mockImplementation(({children}) => children)
-})
+  React.Profiler.mockImplementation(({children}) => children);
+});
 
 test('uses the Profiler correctly', () => {
-  render(<App />)
+  render(<App />);
 
   alfredTip(
     () =>
@@ -31,5 +31,5 @@ test('uses the Profiler correctly', () => {
         expect.any(Object),
       ),
     'The React.Profiler component must be used with the correct props',
-  )
-})
+  );
+});
